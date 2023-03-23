@@ -47,4 +47,11 @@ void main()
 
 	sTest1.shrink_to_fit();
 	cout << sTest1.c_str() << '\n' << sTest1.length() << '\n' << sTest1.capacity() << "\n\n";
+
+	sTest1 = sTest3;
+	if (sTest1 == sTest3)
+		cout << "true\n";
+
+	if (sTest2 != sTest3)
+		cout << "true\n";
 }

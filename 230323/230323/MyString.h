@@ -12,7 +12,8 @@ public:
 	MyString& operator+=(const MyString& _szRight);
 	MyString operator+(const MyString& _szRight);
 	bool operator==(const MyString& _szRight);
-
+	bool operator!=(const MyString& _szRight);
+	
 	const char* c_str() const;
 	size_t capacity();
 	size_t size();

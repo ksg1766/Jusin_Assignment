@@ -105,9 +105,6 @@ MyString& MyString::operator+=(const MyString& _szRight)
 
 MyString MyString::operator+(const MyString& _szRight)
 {
-    /*MyString* strTemp = new MyString(*this);
-    *strTemp += _szRight;
-    return *strTemp;*/
     MyString strTemp(*this);
     strTemp += _szRight;
     return strTemp;
@@ -123,6 +120,11 @@ bool MyString::operator==(const MyString& _szRight)
             return false;
 
     return true;
+}
+
+bool MyString::operator!=(const MyString& _szRight)
+{
+    return !(*this == _szRight);
 }
 
 const char* MyString::c_str() const
