@@ -8,6 +8,10 @@ void main()
 	cin.tie(NULL);
 	cout.tie(NULL);
 
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	_CrtDumpMemoryLeaks();
+	//_CrtSetBreakAlloc(246);
+
 	String sTest1 = "asdf";
 	cout << sTest1.c_str() << '\n' << sTest1.size() << '\n' << sTest1.capacity() << "\n\n";
 

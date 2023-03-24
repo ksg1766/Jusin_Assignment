@@ -2,15 +2,13 @@
 #define MIN_ALOC(x) (16 * ((x) / 16 + 1) - 1)
 #define CHECK_CAPACITY(x) if (m_iCapacity >= x)
 #define STR_DEEP_CPY_ALOC char* szTemp = new char[m_iCapacity + 1]; \
-                            for (int i = 0; i < m_iSize; ++i) { szTemp[i] = m_szStr[i]; } \
-                            szTemp[m_iSize] = '\0'; \
-                            delete m_szStr; m_szStr = szTemp;
-//int m_iMySize;
-//int m_iCapacity;
-//char* m_szStr;
+                          for (int i = 0; i < m_iSize; ++i) { szTemp[i] = m_szStr[i]; } \
+                          szTemp[m_iSize] = '\0'; \
+                          delete m_szStr; m_szStr = szTemp;
+
 MyString::MyString() : m_iCapacity(0), m_iSize(0) { reserve(); }
 
-MyString::MyString(const MyString& rhs)// : m_iCapacity(0), m_iSize(0)
+MyString::MyString(const MyString& rhs)
 {
     reserve();
     *this = rhs;
@@ -32,7 +30,7 @@ MyString::MyString(const MyString& rhs)// : m_iCapacity(0), m_iSize(0)
     return;*/
 }
 
-MyString::MyString(const char* _szRight) : m_iCapacity(0), m_iSize(0)
+MyString::MyString(const char* _szRight) : m_iSize(0)
 {
     size_t iTemp = 0;
     for (int i = 0; _szRight[i] != '\0'; ++i)
@@ -43,9 +41,65 @@ MyString::MyString(const char* _szRight) : m_iCapacity(0), m_iSize(0)
     *this = _szRight;
 }
 
+
+const char* MyString::c_str() const
+{
+    return m_szStr;
+}
+
+size_t MyString::capacity()
+{
+    return size_t(m_iCapacity);
+}
+
+size_t MyString::size()
+{
+    return size_t(m_iSize);
+}
+
+size_t MyString::length()
+{
+    return size_t(m_iSize);
+}
+
+void MyString::resize(size_t _iSize)
+{
+    CHECK_CAPACITY(_iSize)
+    {
+        m_szStr[_iSize] = '\0';
+        m_iSize = _iSize;
+        return;
+    }
+    reserve(_iSize);
+}
+
+void MyString::reserve()
+{
+    size_t iNewSize = MIN_ALOC(m_iSize);
+    CHECK_CAPACITY(iNewSize) return;
+
+    m_iCapacity = iNewSize;
+    STR_DEEP_CPY_ALOC
+}
+
+void MyString::reserve(size_t _iSize)
+{
+    CHECK_CAPACITY(_iSize) return;
+
+    m_iCapacity = MIN_ALOC(_iSize);
+    STR_DEEP_CPY_ALOC
+}
+
+void MyString::shrink_to_fit()
+{
+    m_iCapacity = MIN_ALOC(m_iSize);
+    STR_DEEP_CPY_ALOC
+}
+
 void MyString::operator=(const MyString& _szRight)
 {
-    if (!_szRight.m_iSize)
+    *this = _szRight.c_str();
+    /*if (!_szRight.m_iSize)
         return;
 
     CHECK_CAPACITY(_szRight.m_iCapacity)
@@ -60,7 +114,7 @@ void MyString::operator=(const MyString& _szRight)
     for (int i = 0; i < _szRight.m_iSize + 1; ++i)
         m_szStr[i] = _szRight.m_szStr[i];
     m_iSize = _szRight.m_iSize;
-    return;
+    return;*/
 }
 
 void MyString::operator=(const char* _szRight)
@@ -125,58 +179,4 @@ bool MyString::operator==(const MyString& _szRight)
 bool MyString::operator!=(const MyString& _szRight)
 {
     return !(*this == _szRight);
-}
-
-const char* MyString::c_str() const
-{
-    return m_szStr;
-}
-
-size_t MyString::capacity()
-{
-    return size_t(m_iCapacity);
-}
-
-size_t MyString::size()
-{
-    return size_t(m_iSize);
-}
-
-size_t MyString::length()
-{
-    return size_t(m_iSize);
-}
-
-void MyString::resize(size_t _iSize)
-{
-    CHECK_CAPACITY(_iSize)
-    {
-        m_szStr[_iSize] = '\0';
-        m_iSize = _iSize;
-        return;
-    }
-    reserve(_iSize);
-}
-
-void MyString::reserve()
-{
-    size_t iNewSize = MIN_ALOC(m_iSize);
-    CHECK_CAPACITY(iNewSize) return;
-
-    m_iCapacity = iNewSize;
-    STR_DEEP_CPY_ALOC
-}
-
-void MyString::reserve(size_t _iSize)
-{
-    CHECK_CAPACITY(_iSize) return;
-
-    m_iCapacity = MIN_ALOC(_iSize);
-    STR_DEEP_CPY_ALOC
-}
-
-void MyString::shrink_to_fit()
-{
-    m_iCapacity = MIN_ALOC(m_iSize);
-    STR_DEEP_CPY_ALOC
 }
